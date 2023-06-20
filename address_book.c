@@ -14,7 +14,8 @@ struct Address {
 void load_default_addresses(List *list);
 void load_addresses(FILE *file, List *list);
 struct Address *create_address_from_csv_line(char *address_line);
-void free_addresses(List *list);
+void free_list_addresses(List *list);
+void free_address(struct Address *address);
 int compare_addresses(void *data1, void *data2);
 void print_address(void *data, int position);
 void print_menu();
@@ -78,11 +79,11 @@ int main()
 				printf("\n***Invalid position***\n");
 				break;
 			}
-			remove_from_list_at(address_list, position_delete);
+			free_address(remove_from_list_at(address_list, position_delete));
 			break;
 		case '5':
 			printf("\n***Deleting whole address book***\n");
-			free_addresses(address_list);
+			free_list_addresses(address_list);
 			remove_all_from_list(address_list);
 			break;
 		case '6':
@@ -147,7 +148,7 @@ int main()
 		}
 	}
 
-	free_addresses(address_list);
+	free_list_addresses(address_list);
 	free_list(address_list);
 	return 0;
 }
@@ -221,13 +222,18 @@ struct Address *create_address_from_csv_line(char *address_line)
 	return address;
 }
 
-void free_addresses(List *list)
+void free_list_addresses(List *list)
 {
 	struct Address *address = NULL;
 	for (int i = 1; i <= get_list_size(list); i++) {
 		address = get_from_list_at(list, i);
 		free(address);
 	}
+}
+
+void free_address(struct Address *address)
+{
+	free(address);
 }
 
 int compare_addresses(void *data1, void *data2)
