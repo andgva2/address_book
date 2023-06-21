@@ -10,6 +10,9 @@ List *create_list()
 
 void add_to_list_start(List *list, void *data)
 {
+	if (list == NULL) {
+		return;
+	}
 	Node *new_node	   = (Node *)malloc(sizeof(Node));
 	new_node->data	   = data;
 	new_node->position = 1;
@@ -28,6 +31,9 @@ void add_to_list_start(List *list, void *data)
 
 void add_to_list_end(List *list, void *data)
 {
+	if (list == NULL) {
+		return;
+	}
 	Node *new_node = (Node *)malloc(sizeof(Node));
 	new_node->data = data;
 	new_node->next = NULL;
@@ -49,14 +55,13 @@ void add_to_list_end(List *list, void *data)
 
 void add_to_list_at(List *list, void *data, int position)
 {
-	if (position < 1 || position > list->size + 1) {
+	if (list == NULL || position < 1 || position > list->size + 1) {
 		return;
 	}
 	if (position == 1) {
 		add_to_list_start(list, data);
 		return;
-	}
-	if (position == list->size + 1) {
+	} else if (position == list->size + 1) {
 		add_to_list_end(list, data);
 		return;
 	}
@@ -79,7 +84,7 @@ void add_to_list_at(List *list, void *data, int position)
 
 void *remove_from_list_start(List *list)
 {
-	if (list->size == 0) {
+	if (list == NULL || list->size == 0) {
 		return NULL;
 	}
 	Node *node_to_remove = list->head;
@@ -98,7 +103,7 @@ void *remove_from_list_start(List *list)
 
 void *remove_from_list_end(List *list)
 {
-	if (list->size == 0) {
+	if (list == NULL || list->size == 0) {
 		return NULL;
 	} else if (list->size == 1) {
 		Node *node_to_remove = list->head;
@@ -122,7 +127,7 @@ void *remove_from_list_end(List *list)
 
 void *remove_from_list_at(List *list, int position)
 {
-	if (list->size == 0 || position > list->size || position < 1) {
+	if (list == NULL || list->size == 0 || position > list->size || position < 1) {
 		return NULL;
 	}
 	if (position == 1) {
@@ -163,7 +168,7 @@ void *remove_from_list_at(List *list, int position)
 
 void *remove_from_list_by(List *list, void *data, int (*fptr)())
 {
-	if (list->size == 0) {
+	if (list == NULL || list->size == 0) {
 		return NULL;
 	}
 	Node *current_node = list->head;
@@ -178,6 +183,9 @@ void *remove_from_list_by(List *list, void *data, int (*fptr)())
 
 void remove_all_from_list(List *list)
 {
+	if (list == NULL || list->size == 0) {
+		return;
+	}
 	Node *current_node = list->head;
 	while (list->size != 0) {
 		Node *next_node = current_node->next;
@@ -189,7 +197,7 @@ void remove_all_from_list(List *list)
 
 void *get_from_list_at(List *list, int position)
 {
-	if (list->size == 0 || position > list->size || position < 1) {
+	if (list == NULL || list->size == 0 || position > list->size || position < 1) {
 		return NULL;
 	}
 	Node *current_node = list->head;
@@ -201,6 +209,9 @@ void *get_from_list_at(List *list, int position)
 
 List *get_sublist_by(List *list, void *data, int (*fptr)())
 {
+	if (list == NULL || list->size == 0) {
+		return NULL;
+	}
 	List *sublist	   = create_list();
 	Node *current_node = list->head;
 	while (current_node != NULL) {
@@ -214,6 +225,9 @@ List *get_sublist_by(List *list, void *data, int (*fptr)())
 
 int get_position_by(List *list, void *data, int (*fptr)())
 {
+	if (list == NULL || list->size == 0) {
+		return -1;
+	}
 	Node *current_node = list->head;
 	while (current_node != NULL) {
 		if ((*fptr)(current_node->data, data) == 1) {
@@ -226,11 +240,17 @@ int get_position_by(List *list, void *data, int (*fptr)())
 
 int get_list_size(List *list)
 {
+	if (list == NULL) {
+		return -1;
+	}
 	return list->size;
 }
 
 void free_list(List *list)
 {
+	if (list == NULL) {
+		return;
+	}
 	if (list->size == 0) {
 		free(list);
 		return;
@@ -246,7 +266,7 @@ void free_list(List *list)
 
 void print_list_by(List *list, void (*fptr)())
 {
-	if (list->size == 0) {
+	if (list == NULL || list->size == 0) {
 		return;
 	}
 	Node *current_node = list->head;
