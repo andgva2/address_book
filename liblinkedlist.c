@@ -3,6 +3,10 @@
 List *create_list()
 {
 	List *new_list = (List *)malloc(sizeof(List));
+	if (new_list == NULL) {
+		fprintf(stderr, "WARNING:\n");
+		fprintf(stderr, "Error: memory allocation failed\n");
+	}	
 	new_list->size = 0;
 	new_list->head = NULL;
 	return new_list;
@@ -14,6 +18,10 @@ void add_to_list_start(List *list, void *data)
 		return;
 	}
 	Node *new_node	   = (Node *)malloc(sizeof(Node));
+	if (new_node == NULL) {
+		fprintf(stderr, "WARNING:\n");
+		fprintf(stderr, "Error: memory allocation failed\n");
+	}	
 	new_node->data	   = data;
 	new_node->position = 1;
 	new_node->next	   = list->head;
@@ -35,6 +43,10 @@ void add_to_list_end(List *list, void *data)
 		return;
 	}
 	Node *new_node = (Node *)malloc(sizeof(Node));
+	if (new_node == NULL) {
+		fprintf(stderr, "WARNING:\n");
+		fprintf(stderr, "Error: memory allocation failed\n");
+	}
 	new_node->data = data;
 	new_node->next = NULL;
 	if (list->size == 0) {
@@ -66,6 +78,10 @@ void add_to_list_at(List *list, void *data, int position)
 		return;
 	}
 	Node *new_node	   = (Node *)malloc(sizeof(Node));
+	if (new_node == NULL) {
+		fprintf(stderr, "WARNING:\n");
+		fprintf(stderr, "Error: memory allocation failed\n");
+	}
 	new_node->data	   = data;
 	new_node->position = position;
 	Node *current_node = list->head;
@@ -213,6 +229,9 @@ List *get_sublist_by(List *list, void *data, int (*fptr)())
 		return NULL;
 	}
 	List *sublist	   = create_list();
+	if (sublist == NULL) {
+		return NULL;
+	}
 	Node *current_node = list->head;
 	while (current_node != NULL) {
 		if ((*fptr)(current_node->data, data) == 1) {
