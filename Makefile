@@ -1,14 +1,34 @@
 CC = gcc
 
-objects = address_book
+CFLAGS = -g -Wall
 
-all: $(objects)
+INCLUDES = -I./src
+
+LFLAGS = -L./lib
+
+LIBS = -llinkedlist
+
+TARGET = address_book
+
+SRCS = $(TARGET).c liblinkedlist.c
+
+OBJS = $(SRCS:.c=.o)
+
+
+
+all: $(TARGET)
 	
-address_book: address_book.c liblinkedlist.c liblinkedlist.h
-	$(CC) $< -o $@
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) $(INCLUDES) -o ./bin/$(TARGET) ./src/$(TARGET).c
+
+$(TARGET).o: $(TARGET).c liblinkedlist.c liblinkedlist.h
+	$(CC) $(CFLAGS) -c ./src/$(TARGET).c -o ./obj/$(TARGET).o
+
+./obj/%.o : ./src/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -f address_book
+	$(RM) ./bin/$(TARGET)
 
 #TODO: target called by your program name
 #TODO: target for building .o files
