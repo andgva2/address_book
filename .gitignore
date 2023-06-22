@@ -2,6 +2,7 @@
 *.d
 
 # Object files
+obj/
 *.o
 *.ko
 *.obj
@@ -15,8 +16,9 @@
 # Precompiled Headers
 *.gch
 *.pch
-
+	
 # Libraries
+lib/
 *.lib
 *.a
 *.la
@@ -29,6 +31,7 @@
 *.dylib
 
 # Executables
+bin/
 *.exe
 *.out
 *.app
