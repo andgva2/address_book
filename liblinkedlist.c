@@ -21,9 +21,18 @@ void add_to_list_start(List *list, void *data)
 	if (new_node == NULL) {
 		fprintf(stderr, "WARNING:\n");
 		fprintf(stderr, "Error: memory allocation failed\n");
-	}	
+	}
 	new_node->data	   = data;
 	new_node->position = 1;
+	
+	if (list->size == 0)
+	{
+		list->head = new_node;
+		new_node->next	   = NULL;
+		list->size++;
+		return;
+	}
+	
 	new_node->next	   = list->head;
 	if (list->head != NULL) {
 		Node *current_node = list->head;
