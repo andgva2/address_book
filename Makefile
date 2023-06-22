@@ -21,8 +21,11 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) -o ./bin/$(TARGET) ./src/$(TARGET).c
 
-$(TARGET).o: $(TARGET).c liblinkedlist.c liblinkedlist.h
+$(TARGET).o: ./src/$(TARGET).c ./src/liblinkedlist.c ./src/liblinkedlist.h
 	$(CC) $(CFLAGS) -c ./src/$(TARGET).c -o ./obj/$(TARGET).o
+	
+liblinkedlist.o: ./src/liblinkedlist.c ./src/liblinkedlist.h
+	$(CC) $(CFLAGS) -c ./src/liblinkedlist.c -o ./obj/liblinkedlist.o
 
 ./obj/%.o : ./src/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
