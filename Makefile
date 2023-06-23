@@ -2,9 +2,9 @@ CC = gcc
 
 CFLAGS = -g -Wall
 
-INCLUDES = -I./src
+INCLUDES = -I./src/
 
-LFLAGS = -L./lib
+LFLAGS = -L./lib/
 
 LIBS = -llinkedlist
 
@@ -20,19 +20,15 @@ all: $(TARGET)
 	
 $(TARGET): $(OBJS)
 	mkdir -p ./bin/
-	$(CC) $(CFLAGS) $(INCLUDES) -o ./bin/$(TARGET) ./src/$(TARGET).c && echo A
+	$(CC) $(CFLAGS) $(INCLUDES) -o ./bin/$(TARGET) ./src/$(TARGET).c
 
 $(TARGET).o: ./src/$(TARGET).c ./src/liblinkedlist.c ./src/liblinkedlist.h
 	mkdir -p ./obj/
-	$(CC) $(CFLAGS) -c ./src/$(TARGET).c -o ./obj/$(TARGET).o && echo a
+	$(CC) $(CFLAGS) -c ./src/$(TARGET).c -o ./obj/$(TARGET).o
 	
 liblinkedlist.o: ./src/liblinkedlist.c ./src/liblinkedlist.h
 	mkdir -p ./obj/
-	$(CC) $(CFLAGS) -c ./src/liblinkedlist.c -o ./obj/liblinkedlist.o && echo b
+	$(CC) $(CFLAGS) -c ./src/liblinkedlist.c -o ./obj/liblinkedlist.o
 
 clean:
 	$(RM) -r ./bin/ ./obj
-
-#TODO: target called by your program name
-#TODO: target for building .o files
-#Implicit variables is a must
