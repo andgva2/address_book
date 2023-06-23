@@ -1,30 +1,24 @@
 CC = gcc
-
 CFLAGS = -g -Wall
+TARGET = address_book
 
 INCLUDES = -I./src/
 
 LFLAGS = -L./lib/
-
 LIBS = -llinkedlist
 
-TARGET = address_book
-
 SRCS = $(TARGET).c liblinkedlist.c
-
 OBJS = $(SRCS:.c=.o)
-
-
 
 all: $(TARGET)
 	
-$(TARGET): $(OBJS)
+$(TARGET): ./obj/$(OBJS)
 	mkdir -p ./bin/
 	$(CC) $(CFLAGS) $(INCLUDES) -o ./bin/$(TARGET) ./src/$(TARGET).c
 
-$(TARGET).o: ./src/$(TARGET).c ./src/liblinkedlist.c ./src/liblinkedlist.h
+./obj/%.o: ./src/%.c
 	mkdir -p ./obj/
-	$(CC) $(CFLAGS) -c ./src/$(TARGET).c -o ./obj/$(TARGET).o
+	$(CC) $(CFLAGS) -c $< -o $@
 	
 liblinkedlist.o: ./src/liblinkedlist.c ./src/liblinkedlist.h
 	mkdir -p ./obj/
