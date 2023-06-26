@@ -28,11 +28,12 @@ int main()
 	int running = 1;
 	printf("Welcome to the address book\n\n");
 	while (running) {
-		char user_input[1];
+		char user_input[2];
+		user_input[1] = '\0';
 		printf("\nOptions menu:\n");
 		print_menu();
 		printf("Enter your choice: ");
-		scanf("%s", user_input);
+		scanf("%1s", &user_input[0]);
 		getchar();
 
 		switch (user_input[0]) {
@@ -301,21 +302,15 @@ struct Address *create_address_from_csv_line(char *address_line)
 		fprintf(stderr, "Error: memory allocation failed\n");
 		return NULL;
 	}
-	char name[30];
-	char surname[30];
-	char email[30];
-	char phone[30];
-	strcpy(name, strtok(address_line, DELIMETER));
-	strcpy(surname, strtok(NULL, DELIMETER));
-	strcpy(email, strtok(NULL, DELIMETER));
-	strcpy(phone, strtok(NULL, DELIMETER));
-	phone[strcspn(phone, "\n")] = 0;
-	if (address != NULL) {
-		strcpy(address->name, name);
-		strcpy(address->surname, surname);
-		strcpy(address->email, email);
-		strcpy(address->phone, phone);
-	}
+	address->name[0] = '\0';
+	address->surname[0] = '\0';
+	address->email[0] = '\0';
+	address->phone[0] = '\0';
+	strcpy(address->name, strtok(address_line, DELIMETER));
+	strcpy(address->surname, strtok(NULL, DELIMETER));
+	strcpy(address->email, strtok(NULL, DELIMETER));
+	strcpy(address->phone, strtok(NULL, DELIMETER));
+	address->phone[strcspn(address->phone, "\n")] = 0;
 	return address;
 }
 

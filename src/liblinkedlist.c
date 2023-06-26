@@ -2,11 +2,13 @@
 
 List *create_list()
 {
-	List *new_list = (List *)malloc(sizeof(List));
+	List *new_list = NULL;
+	new_list       = (List *)malloc(sizeof(List));
 	if (new_list == NULL) {
 		fprintf(stderr, "WARNING:\n");
 		fprintf(stderr, "Error: memory allocation failed\n");
-	}	
+		return NULL;
+	}
 	new_list->size = 0;
 	new_list->head = NULL;
 	return new_list;
@@ -17,23 +19,24 @@ void add_to_list_start(List *list, void *data)
 	if (list == NULL) {
 		return;
 	}
-	Node *new_node	   = (Node *)malloc(sizeof(Node));
+	Node *new_node = NULL;
+	new_node       = (Node *)malloc(sizeof(Node));
 	if (new_node == NULL) {
 		fprintf(stderr, "WARNING:\n");
 		fprintf(stderr, "Error: memory allocation failed\n");
+		return;
 	}
 	new_node->data	   = data;
 	new_node->position = 1;
-	
-	if (list->size == 0)
-	{
-		list->head = new_node;
-		new_node->next	   = NULL;
+
+	if (list->size == 0) {
+		list->head     = new_node;
+		new_node->next = NULL;
 		list->size++;
 		return;
 	}
-	
-	new_node->next	   = list->head;
+
+	new_node->next = list->head;
 	if (list->head != NULL) {
 		Node *current_node = list->head;
 		while (current_node != NULL) {
@@ -51,10 +54,12 @@ void add_to_list_end(List *list, void *data)
 	if (list == NULL) {
 		return;
 	}
-	Node *new_node = (Node *)malloc(sizeof(Node));
+	Node *new_node = NULL;
+	new_node       = (Node *)malloc(sizeof(Node));
 	if (new_node == NULL) {
 		fprintf(stderr, "WARNING:\n");
 		fprintf(stderr, "Error: memory allocation failed\n");
+		return;
 	}
 	new_node->data = data;
 	new_node->next = NULL;
@@ -86,10 +91,12 @@ void add_to_list_at(List *list, void *data, int position)
 		add_to_list_end(list, data);
 		return;
 	}
-	Node *new_node	   = (Node *)malloc(sizeof(Node));
+	Node *new_node = NULL;
+	new_node       = (Node *)malloc(sizeof(Node));
 	if (new_node == NULL) {
 		fprintf(stderr, "WARNING:\n");
 		fprintf(stderr, "Error: memory allocation failed\n");
+		return;
 	}
 	new_node->data	   = data;
 	new_node->position = position;
@@ -237,7 +244,7 @@ List *get_sublist_by(List *list, void *data, int (*fptr)())
 	if (list == NULL || list->size == 0) {
 		return NULL;
 	}
-	List *sublist	   = create_list();
+	List *sublist = create_list();
 	if (sublist == NULL) {
 		return NULL;
 	}

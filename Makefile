@@ -1,28 +1,27 @@
 CC = gcc
 CFLAGS = -g -Wall
 TARGET = address_book
+BINDIR = ./bin
 
-INCLUDES = -I./src/
+SRCSDIR = ./src
+SRCS = $(TARGET).c liblinkedlist.c
+OBJSDIR = ./obj
+OBJS = $(addprefix $(OBJSDIR)/, $(SRCS:.c=.o))
+
+INCLUDES = -I$(SRCSDIR)/
 
 LFLAGS = -L./lib/
 LIBS = -llinkedlist
 
-SRCS = $(TARGET).c liblinkedlist.c
-OBJS = $(SRCS:.c=.o)
-
 all: $(TARGET)
 	
-$(TARGET): ./obj/$(OBJS)
-	mkdir -p ./bin/
-	$(CC) $(CFLAGS) $(INCLUDES) -o ./bin/$(TARGET) ./src/$(TARGET).c
+$(TARGET): $(OBJS)
+	mkdir -p $(BINDIR)/
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(BINDIR)/$(TARGET) $(SRCSDIR)/$(TARGET).c
 
-./obj/%.o: ./src/%.c
-	mkdir -p ./obj/
-	$(CC) $(CFLAGS) -c $< -o $@
-	
-liblinkedlist.o: ./src/liblinkedlist.c ./src/liblinkedlist.h
-	mkdir -p ./obj/
-	$(CC) $(CFLAGS) -c ./src/liblinkedlist.c -o ./obj/liblinkedlist.o
+$(OBJSDIR)/%.o: $(SRCSDIR)/%.c
+	mkdir -p $(OBJSDIR)/
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	$(RM) -r ./bin/ ./obj
+	$(RM) -r $(BINDIR)/ $(OBJSDIR)/
