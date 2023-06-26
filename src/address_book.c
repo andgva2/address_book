@@ -77,7 +77,6 @@ int main()
 			add_to_list_end(address_list, new_address);
 			break;
 		case '3':
-			// TODO: fix memory leak. (Recreation options: 5 -> 3)
 			printf("\n***Adding new address at specified position***\n");
 			printf("Enter position: ");
 			int position_add;
