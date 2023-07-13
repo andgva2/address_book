@@ -12,9 +12,229 @@ void load_addresses(FILE *file, struct Address **list);
 
 void interuption_handler(int signum)
 {
+<<<<<<< HEAD
+	List *address_list = create_list();
+	load_default_addresses(address_list);
+	int running = 1;
+	printf("Welcome to the address book\n\n");
+	while (running) {
+		char user_input[2];
+		user_input[1] = '\0';
+		printf("\nOptions menu:\n");
+		print_menu();
+		printf("Enter your choice: ");
+		scanf("%1s", &user_input[0]);
+		getchar();
+
+		switch (user_input[0]) {
+		case '1':
+			printf("\n***Displaying all records***\n");
+			print_list_by(address_list, print_address);
+			break;
+		case '2':
+			printf("\n***Adding new address***\n");
+			struct Address *new_address = (struct Address *)malloc(sizeof(struct Address));
+			if (new_address == NULL) {
+				fprintf(stderr, "WARNING:\n");
+				fprintf(stderr, "Error: memory allocation failed\n");
+				break;
+			}
+
+			printf("Enter name: ");
+			char add_name[30];
+			fgets(add_name, 30, stdin);
+			add_name[strlen(add_name) - 1] = '\0';
+			strcpy(new_address->name, add_name);
+
+			printf("Enter surname: ");
+			char add_surname[30];
+			fgets(add_surname, 30, stdin);
+			add_surname[strlen(add_surname) - 1] = '\0';
+			strcpy(new_address->surname, add_surname);
+
+			printf("Enter email: ");
+			char add_email[30];
+			fgets(add_email, 30, stdin);
+			add_email[strlen(add_email) - 1] = '\0';
+			strcpy(new_address->email, add_email);
+
+			printf("Enter phone: ");
+			char add_phone[30];
+			fgets(add_phone, 30, stdin);
+			add_phone[strlen(add_phone) - 1] = '\0';
+			strcpy(new_address->phone, add_phone);
+
+			add_to_list_end(address_list, new_address);
+			break;
+		case '3':
+			printf("\n***Adding new address at specified position***\n");
+			printf("Enter position: ");
+			int position_add;
+			scanf("%d", &position_add);
+			getchar();
+
+			if (position_add < 1 || position_add > address_list->size + 1) {
+				printf("\n***Invalid position***\n");
+				break;
+			}
+
+			struct Address *new_address_at = (struct Address *)malloc(sizeof(struct Address));
+			if (new_address_at == NULL) {
+				fprintf(stderr, "WARNING:\n");
+				fprintf(stderr, "Error: memory allocation failed\n");
+				break;
+			}
+
+			printf("Enter name: ");
+			char add_at_name[30];
+			fgets(add_at_name, 30, stdin);
+			add_at_name[strlen(add_at_name) - 1] = '\0';
+			strcpy(new_address_at->name, add_at_name);
+
+			printf("Enter surname: ");
+			char add_at_surname[30];
+			fgets(add_at_surname, 30, stdin);
+			add_at_surname[strlen(add_at_surname) - 1] = '\0';
+			strcpy(new_address_at->surname, add_at_surname);
+
+			printf("Enter email: ");
+			char add_at_email[30];
+			fgets(add_at_email, 30, stdin);
+			add_at_email[strlen(add_at_email) - 1] = '\0';
+			strcpy(new_address_at->email, add_at_email);
+
+			printf("Enter phone: ");
+			char add_at_phone[30];
+			fgets(add_at_phone, 30, stdin);
+			add_at_phone[strlen(add_at_phone) - 1] = '\0';
+			strcpy(new_address_at->phone, add_at_phone);
+
+			add_to_list_at(address_list, new_address_at, position_add);
+			break;
+		case '4':
+			printf("\n***Deleting address from specified position***\n");
+			printf("Enter position: ");
+			int position_delete;
+			scanf("%d", &position_delete);
+			getchar();
+
+			if (position_delete < 1 || position_delete > address_list->size) {
+				printf("\n***Invalid position***\n");
+				break;
+			}
+
+			free_address(remove_from_list_at(address_list, position_delete));
+			break;
+		case '5':
+			printf("\n***Deleting whole address book***\n");
+			free_list_addresses(address_list);
+			remove_all_from_list(address_list);
+			break;
+		case '6':
+			printf("\n***Finding address by position***\n");
+			printf("Enter position: ");
+			int position_find;
+			scanf("%d", &position_find);
+			getchar();
+
+			if (position_find < 1 || position_find > address_list->size) {
+				printf("\n***Invalid position***\n");
+				break;
+			}
+
+			struct Address *address_find =
+				(struct Address *)get_from_list_at(address_list, position_find);
+			if (address_find == NULL) {
+				fprintf(stderr, "WARNING:\n");
+				fprintf(stderr, "Error: memory allocation failed\n");
+				break;
+			}
+
+			printf("\nAddress at position %d:\n", position_find);
+			printf("Name: %s\n", address_find->name);
+			printf("Surname: %s\n", address_find->surname);
+			printf("Email: %s\n", address_find->email);
+			printf("Phone: %s\n", address_find->phone);
+			break;
+		case '7':
+			printf("\n***Finding address by name, surname, email or phone number***\n");
+			printf("Enter information or leave it empty:\n");
+			struct Address *search_address = (struct Address *)malloc(sizeof(struct Address));
+			if (search_address == NULL) {
+				fprintf(stderr, "WARNING:\n");
+				fprintf(stderr, "Error: memory allocations failed\n");
+				break;
+			}
+
+			printf("Enter name: ");
+			char name[30];
+			fgets(name, 30, stdin);
+			name[strcspn(name, "\n")] = 0;
+			if (name[0] == '\n') {
+				name[0] = '\0';
+			}
+			strcpy(search_address->name, name);
+
+			printf("Enter surname: ");
+			char surname[30];
+			fgets(surname, 30, stdin);
+			surname[strcspn(surname, "\n")] = 0;
+			if (surname[0] == '\n') {
+				surname[0] = '\0';
+			}
+			strcpy(search_address->surname, surname);
+
+			printf("Enter email: ");
+			char email[30];
+			fgets(email, 30, stdin);
+			email[strcspn(email, "\n")] = 0;
+			if (email[0] == '\n') {
+				email[0] = '\0';
+			}
+			strcpy(search_address->email, email);
+
+			printf("Enter phone: ");
+			char phone[30];
+			fgets(phone, 30, stdin);
+			phone[strcspn(phone, "\n")] = 0;
+			if (phone[0] == '\n') {
+				phone[0] = '\0';
+			}
+			strcpy(search_address->phone, phone);
+
+			List *found_addresses =
+				get_sublist_by(address_list, search_address, compare_addresses);
+
+			if (found_addresses->size == 0) {
+				printf("\n***No addresses found***\n");
+				break;
+			} else {
+				printf("\n***Found addresses***\n");
+				print_list_by(found_addresses, print_address_no_position);
+			}
+
+			free_address(search_address);
+			free_list(found_addresses);
+			break;
+		case '8':
+			printf("\n***Exiting***\n");
+			running = 0;
+			break;
+
+		default:
+			printf("\n***Invalid input***\n");
+			break;
+		}
+	}
+
+	free_list_addresses(address_list);
+	free_list(address_list);
+	return 0;
+=======
 	printf("\n\n***Program was interupted***\n");
 	printf("***Input anything, program will exit.***\n");
 	exit_flag = 1;
+>>>>>>> only_node_data_structure
 }
 
 void print_menu()
