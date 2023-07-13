@@ -3,7 +3,7 @@ Simple address book in C, using linked list data structure.
 
 # Usage
 ```
+make clean
 make
-cd ./bin
-./address_book
+./launch.sh
 ```
